@@ -1,0 +1,31 @@
+.select .main {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 5px;
+    min-height: 30px;
+    min-width: 60px;
+}
+
+.items {
+/*HIDE items with css*/
+
+    /*display: none;*/
+    /*position: absolute;*/
+    padding: 5px;
+    border: 1px solid black;
+}
+
+.item:hover {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.item.selected {
+    background-color: cornflowerblue;
+    color: white;
+}
+/*HIDE items with css*/
+
+/*.select.active .items {*/
+/*    display: block;*/
+/*}*/
