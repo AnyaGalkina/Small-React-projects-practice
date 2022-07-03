@@ -4,7 +4,7 @@ import styles from "./UncontrolledOnOf.module.css";
 type PropsType = {
     onChange: (isOn: boolean) => void
 }
-const UncontrolledOnOff = (props: PropsType) => {
+const SecretUncontrolledOnOff = (props: PropsType) => {
     const [isOn, setOnOff] = useState(false);
 
     let indicator = {
@@ -43,5 +43,6 @@ const UncontrolledOnOff = (props: PropsType) => {
         </div>
     );
 };
+const UncontrolledOnOff = React.memo(SecretUncontrolledOnOff)
 
 export default UncontrolledOnOff;

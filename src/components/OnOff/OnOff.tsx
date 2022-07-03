@@ -6,7 +6,7 @@ type OnOfPropsType = {
     onClickCallback: (isOn: boolean) => void;
 }
 
-const OnOff = ({isOn, onClickCallback}: OnOfPropsType) => {
+const SecretOnOff = ({isOn, onClickCallback}: OnOfPropsType) => {
 
     let onOnClickHandler = () => {
         onClickCallback(true);
@@ -35,4 +35,5 @@ const OnOff = ({isOn, onClickCallback}: OnOfPropsType) => {
     );
 }
 
+const OnOff = React.memo(SecretOnOff);
 export default OnOff;
