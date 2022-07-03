@@ -1,44 +1,134 @@
-import React, {useState} from 'react';
-import './App.css';
+import React, {useState} from "react";
+import "./App.css";
 import Rating from "./components/Rating/Rating";
 import Accordion from "./components/Accordion/Accordion";
 import UncontrolledOnOff from "./components/OnOff/UncontrolledOnOff";
 import OnOff from "./components/OnOff/OnOff";
 import UncontrolledAccordion from "./components/Accordion/UncontrolledAccordion";
 import UncontrolledRating from "./components/Rating/UncontrolledRating";
+import {NavLink, Outlet, Route, Routes} from "react-router-dom";
+import {SelectCity, SelectCityMUI} from "./components/Select/Select";
+import {Example} from "./components/Examples/ReactMemoExample";
 
 export type ValueType = 0 | 1 | 2 | 3 | 4 | 5;
+
+export type ItemType = {
+    id: number;
+    title: string;
+    value: any
+}
+export let cityArr: ItemType[] = [
+    {id: 0, value: 0, title: "None"},
+    {id: 1, value: 1, title: "Dubai"},
+    {id: 2, value: 2, title: "Moscow"},
+    {id: 3, value: 3, title: "Phuket"},
+    {id: 4, value: 4, title: "Miami"},
+    {id: 5, value: 5, title: "Melbourne"},
+]
+let cityArrWithoutNone: ItemType[] = [
+    {id: 1, value: 1, title: "Dubai"},
+    {id: 2, value: 2, title: "Moscow"},
+    {id: 3, value: 3, title: "Phuket"},
+    {id: 4, value: 4, title: "Miami"},
+    {id: 5, value: 5, title: "Melbourne"},
+]
 
 function App() {
     const [value, setValue] = useState<ValueType>(0);
     const [collapsedAccordion, setCollapsedAccordion] = useState(true);
     const [isOn, setOnOff] = useState(true);
+    const [city, setCity] = useState<string>(cityArr[0].title);
+
 
     return (
         <div className={"App"}>
-            {/*<PageTitle title={"This is App component"}/>*/}
+                <div>
+                    <NavLink to={"/accordion"} className={"link"}>Accordion </NavLink>
+                    <span>----</span>
+                    <NavLink to={"/accordion/uncontrolled"}  className={"link"}>Uncontrolled</NavLink>
+                </div>
+                <div>
+                    <NavLink to={"/rating"} className={"link"}>Rating</NavLink>
+                </div>
+                <div>
+                    <NavLink to={"/switcher"} className={"link"}>Switcher</NavLink>
+                </div>
+                <div>
+                    <NavLink to={"/my-select"} className={"link"}>Select</NavLink>
+                    <span>----</span>
+                    <NavLink to={"/my-select/MUI"} className={"link"}>Select MUI</NavLink>
+                </div>
 
-            <UncontrolledAccordion title={"Uncontrolled Accordion Menu"}/>
-            <Accordion
-                title={"Menu 1"}
-                collapsed={collapsedAccordion}
-                onClickCallback={setCollapsedAccordion}
-            />
 
-            <UncontrolledRating/>
+            <Routes>
+                {/*<Route path={'/accordion/*'}*/}
+                {/*       element={<div>*/}
+                {/*           <Accordion title={"Menu 1"} collapsed={collapsedAccordion}*/}
+                {/*                      onClickCallback={setCollapsedAccordion}/>*/}
+                {/*           <Routes>*/}
+                {/*               <Route path={'/uncontrolled'}*/}
+                {/*                      element={<UncontrolledAccordion title={"Uncontrolled Accordion Menu"}/>}*/}
+                {/*               />*/}
+                {/*           </Routes>*/}
+                {/*       </div>}*/}
+                {/*/>*/}
 
-            <Rating value={value} setValue={setValue}/>
-            {/*<Rating value={value} setValue={setValue}/>*/}
+                {/*Option 2 with use <Outlet />*/}
 
-            <OnOff isOn={isOn} onClickCallback={setOnOff}/>
-            <UncontrolledOnOff onChange={setOnOff}/> {isOn.toString()}
+                <Route path={"/accordion"}
+                       element={
+                           <div>
+                               <Accordion title={"Menu 1"}
+                                          collapsed={collapsedAccordion}
+                                          onClickCallback={setCollapsedAccordion}
+                                          items={[
+                                              {id: 1, title: "1", value: 1},
+                                              {id: 2, title: "2", value: 2},
+                                              {id: 3, title: "3", value: 3},
+                                              {id: 4, title: "4", value: 4},
+                                          ]}/>
+                               <Outlet/>
+                           </div>}
+                >
+                    <Route path={"/accordion/uncontrolled"}
+                           element={<UncontrolledAccordion title={"Uncontrolled Accordion Menu"}/>}
+                    />
+                    <Route path={"*"} element={<div>page not found</div>}/>
+                    <Route index element={<div>If no params in url, show this text </div>}/>
+                    <Route path={":id/:id"} element={<div>two parameters with name "id" show id</div>}/>
+                </Route>
+
+                <Route path={"/rating"}
+                       element={<Rating value={value} setValue={setValue}/>}
+                />
+                <Route path={"/switcher"}
+                       element={<OnOff isOn={isOn} onClickCallback={setOnOff}/>}
+                />
+                <Route path={"/my-select"} element={
+                    <div>
+                        <SelectCity value={value} city={city} items={cityArr} setCity={setCity}/>
+                        <Outlet />
+                    </div>}
+                />
+                <Route path={"/my-select/MUI"}
+                       element={<SelectCityMUI city={city} items={cityArrWithoutNone} setCity={setCity}/>}
+                />
+
+                <Route path={"/*"} element={<h1>404</h1>}/>
+                {/*<Route path={''} render={() => {}}/>*/}
+            </Routes>
+
+            <Example />
+            {/**/}
+            {/*<UncontrolledRating/>*/}
+            {/*<UncontrolledOnOff onChange={setOnOff}/> {isOn.toString()}*/}
         </div>
     );
 }
 
-function PageTitle(props: any) {
-    return <div>{props.title}</div>
-}
+// function PageTitle(props: any) {
+//     return <div>{props.title}</div>
+// }
 
 export default App;
 
