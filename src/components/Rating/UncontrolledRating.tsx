@@ -5,7 +5,7 @@ export type ValueType = 0 | 1 | 2 | 3 | 4 | 5;
 
 type RatingPropsType = {}
 
-function UncontrolledRating(props: RatingPropsType) {
+function SecretUncontrolledRating(props: RatingPropsType) {
     const [value, setValue] = useState(0);
 
     return (
@@ -25,7 +25,7 @@ type StarPropsType = {
     setValue: (value: ValueType) => void;
 }
 
-function Star(props: StarPropsType) {
+function SecretStar(props: StarPropsType) {
 
     return (
         <span
@@ -36,5 +36,6 @@ function Star(props: StarPropsType) {
         >{props.selected ? "★" : "☆"}</span>
     )
 }
-
+const UncontrolledRating = React.memo(SecretUncontrolledRating);
+const Star = React.memo(SecretStar);
 export default UncontrolledRating;
