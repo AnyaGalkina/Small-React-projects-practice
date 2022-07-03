@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, {useReducer, useState} from "react";
+import {reducer, TOGGLE_COLLAPSED} from "./reducerUncontrolledAccordion";
+
 
 type PropsType = {
     title: string;
@@ -9,17 +11,18 @@ type ButtonPropsType = {
     setCollapsed: (collapsed: boolean) => void
 }
 
-function UncontrolledAccordion(props: PropsType) {
+function SecretUncontrolledAccordion(props: PropsType) {
 
-    const [collapsed, setCollapsed] = useState(false);
-
+    // const [collapsed, setCollapsed] = useState(false);
+    const [state, dispatch] = useReducer(reducer, {collapsed: false});
     return (
         <div>
             <UncontrolledAccordionTitle title={props.title} setCollapsed={() => {
-                setCollapsed(!collapsed)
+                // setCollapsed(!collapsed)
+                dispatch({type:TOGGLE_COLLAPSED})
             }}/>
             {/*<UncontrolledAccordionButton collapsed={collapsed} setCollapsed={setCollapsed}/>*/}
-            {!collapsed && <UncontrolledAccordionBody/>}
+            {!state.collapsed && <UncontrolledAccordionBody/>}
         </div>)
 }
 
@@ -32,7 +35,7 @@ function UncontrolledAccordion(props: PropsType) {
 //     )
 // }
 
-function UncontrolledAccordionBody() {
+function SecretUncontrolledAccordionBody() {
     return <ul>
         <li>1</li>
         <li>2</li>
@@ -45,10 +48,13 @@ type AccordionTitlePropsType = {
     setCollapsed: () => void;
 }
 
-function UncontrolledAccordionTitle(props: AccordionTitlePropsType) {
+function SecretUncontrolledAccordionTitle(props: AccordionTitlePropsType) {
     return (
         <h3 onClick={props.setCollapsed}>{props.title}</h3>
     )
 }
 
+const UncontrolledAccordionBody = React.memo(SecretUncontrolledAccordionBody)
+const UncontrolledAccordionTitle = React.memo(SecretUncontrolledAccordionTitle)
+const UncontrolledAccordion = React.memo(SecretUncontrolledAccordion);
 export default UncontrolledAccordion;
