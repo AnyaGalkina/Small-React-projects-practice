@@ -6,12 +6,13 @@ import Select, {SelectChangeEvent} from "@mui/material/Select";
 import {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
 import {ItemType} from "../../App";
 import styles from "./Select.module.css"
+import {useNavigate} from "react-router-dom";
 
 type SelectPropsType = {
     city: string;
     items: ItemType[];
     value?: number;
-    setCity: (value: string) => void
+    setCity: (value: string) => void;
 }
 
 
@@ -80,6 +81,8 @@ export const SelectCity = React.memo(SecretSelectCity);
 //
 export function SecretSelectCityMUI(props: SelectPropsType) {
     const [city, setCity] = React.useState("");
+    const  navigate = useNavigate();
+
 
     const handleChange = (event: SelectChangeEvent) => {
         setCity(event.target.value);
@@ -104,6 +107,9 @@ export function SecretSelectCityMUI(props: SelectPropsType) {
                     {props.items.map(i => <MenuItem key={i.id} value={i.value}>{i.title}</MenuItem>)}
                 </Select>
             </FormControl>
+            <div>
+                <button onClick={()=> {navigate("/my-select")}}>Go to another Select</button>
+            </div>
         </div>
     );
 }
